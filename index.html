@@ -5,299 +5,263 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#200b20">
 <meta name="description" content="A little something, just for you.">
-<title>A little something for you ♥</title>
-
+<title>A little something for you</title>
 <style>
 /*
-  LOVE BOX — one page, four locally stored fonts.
-
-  Files beside this page:
-  fonts/DancingScript.woff2
-  fonts/PlayfairDisplay.woff2
-  fonts/PlayfairDisplay-Italic.woff2
-  fonts/PlayfairDisplay-700.woff2
-
-  Screen 1: a large greeting and an animated, wrapped present.
-  Screen 2: an unframed love note, surrounded by floating hearts and stars.
-
-  Opening uses the browser's native <details> element. It does not depend
-  on JavaScript, canvas, fonts, storage, or an animation finishing.
-  JavaScript adds decorative particles and a replay button.
-
-  All fonts have fallbacks. No remote services or localStorage are used.
+LOVE BOX — one page, four locally stored fonts.
+Files beside this page:
+fonts/DancingScript.woff2
+fonts/PlayfairDisplay.woff2
+fonts/PlayfairDisplay-Italic.woff2
+fonts/PlayfairDisplay-700.woff2
+Screen 1: a large greeting and an animated, wrapped present.
+Screen 2: an unframed love note, surrounded by floating hearts and stars.
+Opening uses the browser's native <details> element. It does not depend
+on JavaScript, canvas, fonts, storage, or an animation finishing.
+JavaScript adds decorative particles and a replay button.
+All fonts have fallbacks. No remote services or localStorage are used.
 */
-
 @font-face {
-  font-family: "Love Script";
-  src: url("./fonts/DancingScript.woff2") format("woff2");
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
+font-family: "Love Script";
+src: url("./fonts/DancingScript.woff2") format("woff2");
+font-style: normal;
+font-weight: 400;
+font-display: swap;
 }
 @font-face {
-  font-family: "Love Serif";
-  src: url("./fonts/PlayfairDisplay.woff2") format("woff2");
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
+font-family: "Love Serif";
+src: url("./fonts/PlayfairDisplay.woff2") format("woff2");
+font-style: normal;
+font-weight: 400;
+font-display: swap;
 }
 @font-face {
-  font-family: "Love Serif";
-  src: url("./fonts/PlayfairDisplay-Italic.woff2") format("woff2");
-  font-style: italic;
-  font-weight: 400;
-  font-display: swap;
+font-family: "Love Serif";
+src: url("./fonts/PlayfairDisplay-Italic.woff2") format("woff2");
+font-style: italic;
+font-weight: 400;
+font-display: swap;
 }
 @font-face {
-  font-family: "Love Serif";
-  src: url("./fonts/PlayfairDisplay-700.woff2") format("woff2");
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
+font-family: "Love Serif";
+src: url("./fonts/PlayfairDisplay-700.woff2") format("woff2");
+font-style: normal;
+font-weight: 700;
+font-display: swap;
 }
-
 :root {
-  color-scheme: dark;
-  --ivory: #fff5e2;
-  --gold: #f3d484;
-  --gold-light: #fff0b9;
-  --rose: #ffa6cb;
-  --ink: #200b20;
+color-scheme: dark;
+--ivory: #fff5e2;
+--gold: #f3d484;
+--gold-light: #fff0b9;
+--rose: #ffa6cb;
+--ink: #200b20;
 }
-
-* { box-sizing: border-box; }
-
+ * { box-sizing: border-box; }
 html {
-  min-height: 100%;
-  background: var(--ink);
+min-height: 100%;
+background: var(--ink);
 }
-
 body {
-  margin: 0;
-  min-width: 240px;
-  min-height: 100vh;
-  color: var(--ivory);
-  background:
-    radial-gradient(ellipse at 50% 45%, #58233f 0%, #321229 46%, #170918 100%);
-  font-family: "Love Serif", Georgia, serif;
-  overflow-x: hidden;
-  -webkit-tap-highlight-color: transparent;
+margin: 0;
+min-width: 240px;
+min-height: 100vh;
+color: var(--ivory);
+background:
+radial-gradient(ellipse at 50% 45%, #58233f 0%, #321229 46%, #170918 100%);
+font-family: "Love Serif", Georgia, serif;
+overflow-x: hidden;
+-webkit-tap-highlight-color: transparent;
 }
-
 /* Radial gradients provide a soft background without large blur filters. */
 .atmosphere {
-  position: fixed;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: 0;
+position: fixed;
+inset: 0;
+overflow: hidden;
+pointer-events: none;
+z-index: 0;
 }
-
 .atmosphere::before,
 .atmosphere::after {
-  content: "";
-  position: absolute;
-  inset: -15%;
-  background:
-    radial-gradient(ellipse at 26% 32%, #b54b762d, transparent 47%),
-    radial-gradient(ellipse at 75% 72%, #e9bf6420, transparent 42%);
-  animation: atmosphere-drift 19s ease-in-out infinite alternate;
+content: "";
+position: absolute;
+inset: -15%;
+background:
+radial-gradient(ellipse at 26% 32%, #b54b762d, transparent 47%),
+radial-gradient(ellipse at 75% 72%, #e9bf6420, transparent 42%);
+animation: atmosphere-drift 19s ease-in-out infinite alternate;
 }
-
 .atmosphere::after {
-  background:
-    radial-gradient(ellipse at 70% 20%, #fdc8a512, transparent 38%),
-    radial-gradient(ellipse at 36% 80%, #a6577f29, transparent 46%);
-  animation-duration: 27s;
-  animation-direction: alternate-reverse;
+background:
+radial-gradient(ellipse at 70% 20%, #fdc8a512, transparent 38%),
+radial-gradient(ellipse at 36% 80%, #a6577f29, transparent 46%);
+animation-duration: 27s;
+animation-direction: alternate-reverse;
 }
-
 /* These small static lights remain if canvas is unavailable. */
 .background-dust {
-  position: absolute;
-  inset: 0;
-  opacity: .5;
-  background-image:
-    radial-gradient(circle at 13% 19%, #ffe4a9 0 1px, transparent 2px),
-    radial-gradient(circle at 82% 28%, #ffe4a9 0 1px, transparent 2px),
-    radial-gradient(circle at 22% 71%, #ffb9d5 0 1px, transparent 2px),
-    radial-gradient(circle at 89% 82%, #ffe4a9 0 1px, transparent 2px),
-    radial-gradient(circle at 62% 9%, #ffe4a9 0 1px, transparent 2px),
-    radial-gradient(circle at 48% 91%, #ffb9d5 0 1px, transparent 2px);
+position: absolute;
+inset: 0;
+opacity: .5;
+background-image:
+radial-gradient(circle at 13% 19%, #ffe4a9 0 1px, transparent 2px),
+radial-gradient(circle at 82% 28%, #ffe4a9 0 1px, transparent 2px),
+radial-gradient(circle at 22% 71%, #ffb9d5 0 1px, transparent 2px),
+radial-gradient(circle at 89% 82%, #ffe4a9 0 1px, transparent 2px),
+radial-gradient(circle at 62% 9%, #ffe4a9 0 1px, transparent 2px),
+radial-gradient(circle at 48% 91%, #ffb9d5 0 1px, transparent 2px);
 }
-
 #sparkles {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 1;
+position: fixed;
+inset: 0;
+width: 100%;
+height: 100%;
+pointer-events: none;
+z-index: 1;
 }
-
 .page {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  min-height: 100svh;
-  padding: 24px 0 16px;
-  padding-top: max(24px, env(safe-area-inset-top, 0px));
-  padding-bottom: max(16px, env(safe-area-inset-bottom, 0px));
+position: relative;
+z-index: 2;
+display: flex;
+flex-direction: column;
+min-height: 100vh;
+min-height: 100svh;
+padding: 24px 0 16px;
+padding-top: max(24px, env(safe-area-inset-top, 0px));
+padding-bottom: max(16px, env(safe-area-inset-bottom, 0px));
 }
-
 .greeting {
-  position: relative;
-  width: 94%;
-  max-width: 740px;
-  margin: 0 auto;
-  padding: 8px 6px 18px;
-  text-align: center;
-  transition: opacity .75s ease, transform .75s ease;
+position: relative;
+width: 94%;
+max-width: 740px;
+margin: 0 auto;
+padding: 8px 6px 18px;
+text-align: center;
+transition: opacity .75s ease, transform .75s ease;
 }
-
 .greeting-title {
-  margin: 0;
-  font-family: "Love Script", Georgia, cursive;
-  font-size: clamp(39px, 11vw, 66px);
-  font-weight: 400;
-  line-height: 1.15;
-  color: var(--ivory);
-  text-shadow: 0 3px 22px #ffb4cf30;
+margin: 0;
+font-family: "Love Script", Georgia, cursive;
+font-size: clamp(39px, 11vw, 66px);
+font-weight: 400;
+line-height: 1.15;
+color: var(--ivory);
+text-shadow: 0 3px 22px #ffb4cf30;
 }
-
 .greeting-title span {
-  display: inline-block;
-  margin-left: .06em;
-  font-family: Georgia, serif;
-  font-size: .48em;
-  color: var(--gold);
-  vertical-align: .12em;
+display: inline-block;
+margin-left: .06em;
+font-family: Georgia, serif;
+font-size: .48em;
+color: var(--gold);
+vertical-align: .12em;
 }
-
 .greeting-hint {
-  margin: 10px 0 0;
-  color: #f8ddb9;
-  font-family: "Love Script", Georgia, cursive;
-  font-size: clamp(23px, 6vw, 32px);
-  font-weight: 400;
-  line-height: 1.35;
+margin: 10px 0 0;
+color: #f8ddb9;
+font-family: "Love Script", Georgia, cursive;
+font-size: clamp(23px, 6vw, 32px);
+font-weight: 400;
+line-height: 1.35;
 }
-
 /* Hide the invitation after opening, without moving the scene. */
 body.revealed .greeting {
-  opacity: 0;
-  transform: translateY(-8px);
-  pointer-events: none;
+opacity: 0;
+transform: translateY(-8px);
+pointer-events: none;
 }
-
 .scene {
-  position: relative;
-  display: flex;
-  flex: 1;
-  align-items: center;
-  width: 100%;
-  max-width: 900px;
-  margin: 0 auto;
+position: relative;
+display: flex;
+flex: 1;
+align-items: center;
+width: 100%;
+max-width: 900px;
+margin: 0 auto;
 }
-
 .gift {
-  position: relative;
-  width: 100%;
-  min-height: 440px;
+position: relative;
+width: 100%;
+min-height: 440px;
 }
-
 /*
-  Native summary is the tap/keyboard control.
-  It remains a functional control if all JavaScript fails.
+Native summary is the tap/keyboard control.
+It remains a functional control if all JavaScript fails.
 */
 .gift-trigger {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: min(84vw, 360px);
-  padding: 0;
-  margin: 0;
-  transform: translate(-50%, -50%);
-  list-style: none;
-  cursor: pointer;
-  touch-action: manipulation;
-  border-radius: 24px;
+position: absolute;
+left: 50%;
+top: 50%;
+width: min(84vw, 360px);
+padding: 0;
+margin: 0;
+transform: translate(-50%, -50%);
+list-style: none;
+cursor: pointer;
+touch-action: manipulation;
+border-radius: 24px;
 }
-
 .gift-trigger::-webkit-details-marker { display: none; }
 .gift-trigger::marker { content: ""; }
-
 .gift-trigger:focus-visible {
-  outline: 2px dashed var(--gold-light);
-  outline-offset: 8px;
+outline: 2px dashed var(--gold-light);
+outline-offset: 8px;
 }
-
 .gift-art {
-  position: relative;
-  transform-origin: 50% 87%;
-  animation: gift-personality 3.2s ease-in-out infinite;
+position: relative;
+transform-origin: 50% 87%;
+animation: gift-personality 3.2s ease-in-out infinite;
 }
-
 .gift-art svg {
-  display: block;
-  width: 100%;
-  height: auto;
-  overflow: visible;
-  filter: drop-shadow(0 18px 15px #08030d66);
+display: block;
+width: 100%;
+height: auto;
+overflow: visible;
+filter: drop-shadow(0 18px 15px #08030d66);
 }
-
 .ground-shadow {
-  position: absolute;
-  left: 18%;
-  right: 12%;
-  bottom: 6%;
-  height: 14px;
-  border-radius: 50%;
-  background: radial-gradient(ellipse, #08030980, transparent 70%);
-  animation: shadow-personality 3.2s ease-in-out infinite;
+position: absolute;
+left: 18%;
+right: 12%;
+bottom: 6%;
+height: 14px;
+border-radius: 50%;
+background: radial-gradient(ellipse, #08030980, transparent 70%);
+animation: shadow-personality 3.2s ease-in-out infinite;
 }
-
 .ribbon-shine {
-  animation: ribbon-shine 3.8s ease-in-out infinite;
+animation: ribbon-shine 3.8s ease-in-out infinite;
 }
-
 .bow-spark {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: jewel-twinkle 3.8s ease-in-out infinite;
+transform-box: fill-box;
+transform-origin: center;
+animation: jewel-twinkle 3.8s ease-in-out infinite;
 }
 .bow-spark.second { animation-delay: 1.8s; }
-
 .heart-jewel {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: heart-warmth 3.2s ease-in-out infinite;
+transform-box: fill-box;
+transform-origin: center;
+animation: heart-warmth 3.2s ease-in-out infinite;
 }
-
 .open-light {
-  position: absolute;
-  left: 50%;
-  top: 51%;
-  width: 50px;
-  height: 50px;
-  margin: -25px;
-  border-radius: 50%;
-  background: radial-gradient(circle, #fff9dfa6, #fbd48740 35%, transparent 70%);
-  opacity: 0;
-  pointer-events: none;
+position: absolute;
+left: 50%;
+top: 51%;
+width: 50px;
+height: 50px;
+margin: -25px;
+border-radius: 50%;
+background: radial-gradient(circle, #fff9dfa6, #fbd48740 35%, transparent 70%);
+opacity: 0;
+pointer-events: none;
 }
-
 .gift[open] .gift-trigger {
-  pointer-events: none;
-  animation: retire-gift 1.65s linear forwards;
+pointer-events: none;
+animation: retire-gift 1.65s linear forwards;
 }
-
 .gift[open] .gift-art { animation: none; }
 .gift[open] .ground-shadow { animation: shadow-away .8s ease forwards; }
 .gift[open] .depth { animation: depth-away .65s ease forwards; }
-
 /* A deliberately stylized 2D unwrapping, not fragile simulated 3D. */
 .gift[open] .panel-tl { animation: unwrap-tl 1.35s .1s ease-in-out both; }
 .gift[open] .panel-tr { animation: unwrap-tr 1.35s .1s ease-in-out both; }
@@ -306,896 +270,784 @@ body.revealed .greeting {
 .gift[open] .wrapping { animation: ribbon-away .65s ease-in both; }
 .gift[open] .bow { animation: bow-away .7s ease-in both; }
 .gift[open] .open-light { animation: opening-light 1.25s ease-out both; }
-
 /* The message has no card, outline, capsule, or decorative border. */
 .letter {
-  position: relative;
-  isolation: isolate;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: calc(100% - 76px);
-  max-width: 620px;
-  min-height: 440px;
-  margin: 0 auto;
-  padding: 24px 0 30px;
-  text-align: center;
+position: relative;
+isolation: isolate;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+width: calc(100% - 76px);
+max-width: 620px;
+min-height: 440px;
+margin: 0 auto;
+padding: 24px 0 30px;
+text-align: center;
 }
-
 .letter::before {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  inset: -35px -25px;
-  background: radial-gradient(ellipse, #8b36532b, #e6bb6410 43%, transparent 72%);
-  pointer-events: none;
+content: "";
+position: absolute;
+z-index: -1;
+inset: -35px -25px;
+background: radial-gradient(ellipse, #8b36532b, #e6bb6410 43%, transparent 72%);
+pointer-events: none;
 }
-
 .gift[open] .letter {
-  animation: letter-arrives 1.4s .35s both;
+animation: letter-arrives 1.4s .35s both;
 }
-
 .letter:focus { outline: none; }
-
 .letter-kiss {
-  margin-bottom: 9px;
-  font-family: sans-serif;
-  font-size: 29px;
-  line-height: 1.3;
+margin-bottom: 9px;
+font-family: sans-serif;
+font-size: 29px;
+line-height: 1.3;
 }
-
 .letter h1 {
-  margin: 0 0 13px;
-  font-family: "Love Serif", Georgia, serif;
-  font-weight: 700;
-  font-size: clamp(42px, 11.8vw, 70px);
-  line-height: 1.16;
-  letter-spacing: -.035em;
-  color: var(--ivory);
-  text-shadow: 0 2px 18px #16081570;
+margin: 0 0 13px;
+font-family: "Love Serif", Georgia, serif;
+font-weight: 700;
+font-size: clamp(42px, 11.8vw, 70px);
+line-height: 1.16;
+letter-spacing: -.035em;
+color: var(--ivory);
+text-shadow: 0 2px 18px #16081570;
 }
-
 .letter-body {
-  margin: 0;
-  font-size: clamp(24px, 6.1vw, 36px);
-  line-height: 1.48;
-  font-weight: 400;
-  color: #f9e7db;
-  text-wrap: pretty;
+margin: 0;
+font-size: clamp(24px, 6.1vw, 36px);
+line-height: 1.48;
+font-weight: 400;
+color: #f9e7db;
+text-wrap: pretty;
 }
-
 .letter-body .line { display: block; }
-
 .letter-body .devotion {
-  display: block;
-  margin: 4px 0 22px;
-  color: var(--gold-light);
-  font-size: clamp(30px, 8vw, 48px);
-  font-weight: 400;
-  font-style: italic;
-  line-height: 1.3;
+display: block;
+margin: 4px 0 22px;
+color: var(--gold-light);
+font-size: clamp(30px, 8vw, 48px);
+font-weight: 400;
+font-style: italic;
+line-height: 1.3;
 }
-
 .letter-body .promise {
-  display: block;
-  margin-top: 8px;
-  font-size: clamp(28px, 7.3vw, 43px);
-  font-weight: 700;
-  line-height: 1.34;
-  color: var(--ivory);
+display: block;
+margin-top: 8px;
+font-size: clamp(28px, 7.3vw, 43px);
+font-weight: 700;
+line-height: 1.34;
+color: var(--ivory);
 }
-
 .letter-body .mischief {
-  display: inline-block;
-  font-family: sans-serif;
-  font-size: .72em;
-  vertical-align: .04em;
+display: inline-block;
+font-family: sans-serif;
+font-size: .72em;
+vertical-align: .04em;
 }
-
 /* A tiny finishing ornament, not a frame around the wording. */
 .letter-signature {
-  margin-top: 21px;
-  font-family: Georgia, serif;
-  color: var(--gold);
-  font-size: 18px;
-  letter-spacing: .5em;
-  padding-left: .5em;
+margin-top: 21px;
+font-family: Georgia, serif;
+color: var(--gold);
+font-size: 18px;
+letter-spacing: .5em;
+padding-left: .5em;
 }
-
 .page-footer {
-  min-height: 48px;
-  margin-top: 8px;
-  text-align: center;
+min-height: 48px;
+margin-top: 8px;
+text-align: center;
 }
-
 .replay {
-  min-height: 44px;
-  padding: 10px 18px;
-  border: 0;
-  background: none;
-  color: #e5c9bb;
-  font-family: "Love Script", Georgia, cursive;
-  font-size: 23px;
-  cursor: pointer;
-  text-underline-offset: 5px;
+min-height: 44px;
+padding: 10px 18px;
+border: 0;
+background: none;
+color: #e5c9bb;
+font-family: "Love Script", Georgia, cursive;
+font-size: 23px;
+cursor: pointer;
+text-underline-offset: 5px;
 }
-
 .replay:hover { color: var(--gold-light); }
 .replay:focus-visible {
-  outline: 2px dashed var(--gold);
-  outline-offset: 2px;
-  border-radius: 8px;
+outline: 2px dashed var(--gold);
+outline-offset: 2px;
+border-radius: 8px;
 }
 .replay[hidden] { display: none; }
-
 .sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
+position: absolute;
+width: 1px;
+height: 1px;
+padding: 0;
+margin: -1px;
+overflow: hidden;
+clip: rect(0, 0, 0, 0);
+white-space: nowrap;
+border: 0;
 }
-
 @keyframes atmosphere-drift {
-  from { transform: translate(-2%, -1%) scale(1); }
-  to { transform: translate(3%, 3%) scale(1.06); }
+from { transform: translate(-2%, -1%) scale(1); }
+to { transform: translate(3%, 3%) scale(1.06); }
 }
-
 /* Mostly still, then a small anticipatory squat and buoyant recovery. */
 @keyframes gift-personality {
-  0%, 62%, 100% { transform: translateY(0) scale(1); }
-  70% { transform: translateY(3px) scale(1.035, .963); }
-  80% { transform: translateY(-9px) scale(.98, 1.025); }
-  90% { transform: translateY(1px) scale(1.012, .99); }
+0%, 62%, 100% { transform: translateY(0) scale(1); }
+70% { transform: translateY(3px) scale(1.035, .963); }
+80% { transform: translateY(-9px) scale(.98, 1.025); }
+90% { transform: translateY(1px) scale(1.012, .99); }
 }
 @keyframes shadow-personality {
-  0%, 62%, 100% { transform: scaleX(1); opacity: .8; }
-  70% { transform: scaleX(1.05); opacity: .9; }
-  80% { transform: scaleX(.88); opacity: .55; }
+0%, 62%, 100% { transform: scaleX(1); opacity: .8; }
+70% { transform: scaleX(1.05); opacity: .9; }
+80% { transform: scaleX(.88); opacity: .55; }
 }
 @keyframes ribbon-shine {
-  0%, 18% { transform: translateX(-360px); opacity: 0; }
-  24% { opacity: .65; }
-  58% { opacity: .65; }
-  70%, 100% { transform: translateX(360px); opacity: 0; }
+0%, 18% { transform: translateX(-360px); opacity: 0; }
+24% { opacity: .65; }
+58% { opacity: .65; }
+70%, 100% { transform: translateX(360px); opacity: 0; }
 }
 @keyframes jewel-twinkle {
-  0%, 35%, 75%, 100% { opacity: .25; transform: scale(.65); }
-  52% { opacity: 1; transform: scale(1.1); }
+0%, 35%, 75%, 100% { opacity: .25; transform: scale(.65); }
+52% { opacity: 1; transform: scale(1.1); }
 }
 @keyframes heart-warmth {
-  0%, 62%, 100% { transform: scale(1); }
-  78% { transform: scale(1.045); }
+0%, 62%, 100% { transform: scale(1); }
+78% { transform: scale(1.045); }
 }
 @keyframes unwrap-tl {
-  0%, 12% { transform: translate(0, 0); opacity: 1; }
-  65% { opacity: .8; }
-  100% { transform: translate(-74px, -64px); opacity: 0; }
+0%, 12% { transform: translate(0, 0); opacity: 1; }
+65% { opacity: .8; }
+100% { transform: translate(-74px, -64px); opacity: 0; }
 }
 @keyframes unwrap-tr {
-  0%, 12% { transform: translate(0, 0); opacity: 1; }
-  65% { opacity: .8; }
-  100% { transform: translate(74px, -64px); opacity: 0; }
+0%, 12% { transform: translate(0, 0); opacity: 1; }
+65% { opacity: .8; }
+100% { transform: translate(74px, -64px); opacity: 0; }
 }
 @keyframes unwrap-bl {
-  0%, 12% { transform: translate(0, 0); opacity: 1; }
-  65% { opacity: .8; }
-  100% { transform: translate(-74px, 64px); opacity: 0; }
+0%, 12% { transform: translate(0, 0); opacity: 1; }
+65% { opacity: .8; }
+100% { transform: translate(-74px, 64px); opacity: 0; }
 }
 @keyframes unwrap-br {
-  0%, 12% { transform: translate(0, 0); opacity: 1; }
-  65% { opacity: .8; }
-  100% { transform: translate(74px, 64px); opacity: 0; }
+0%, 12% { transform: translate(0, 0); opacity: 1; }
+65% { opacity: .8; }
+100% { transform: translate(74px, 64px); opacity: 0; }
 }
 @keyframes ribbon-away {
-  to { transform: translateY(-24px); opacity: 0; }
+to { transform: translateY(-24px); opacity: 0; }
 }
 @keyframes bow-away {
-  35% { opacity: 1; }
-  to { transform: translateY(-46px); opacity: 0; }
+35% { opacity: 1; }
+to { transform: translateY(-46px); opacity: 0; }
 }
 @keyframes depth-away { to { opacity: 0; } }
 @keyframes shadow-away { to { opacity: 0; } }
 @keyframes retire-gift {
-  0%, 99% { visibility: visible; }
-  100% { visibility: hidden; }
+0%, 99% { visibility: visible; }
+100% { visibility: hidden; }
 }
 @keyframes opening-light {
-  0% { opacity: 0; transform: scale(.5); }
-  30% { opacity: .9; }
-  100% { opacity: 0; transform: scale(8); }
+0% { opacity: 0; transform: scale(.5); }
+30% { opacity: .9; }
+100% { opacity: 0; transform: scale(8); }
 }
 @keyframes letter-arrives {
-  from { opacity: 0; transform: translateY(25px) scale(.94); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
+from { opacity: 0; transform: translateY(25px) scale(.94); }
+to { opacity: 1; transform: translateY(0) scale(1); }
 }
-
 @media (min-width: 700px) {
-  .page { padding-top: 34px; }
-  .gift, .letter { min-height: 510px; }
+.page { padding-top: 34px; }
+.gift, .letter { min-height: 510px; }
 }
-
 @media (max-width: 340px) {
-  .greeting-title { font-size: 36px; }
-  .greeting-hint { font-size: 22px; }
-  .letter { width: calc(100% - 62px); }
-  .letter h1 { font-size: 37px; }
-  .letter-body { font-size: 22px; }
-  .letter-body .devotion { font-size: 28px; }
-  .letter-body .promise { font-size: 26px; }
+.greeting-title { font-size: 36px; }
+.greeting-hint { font-size: 22px; }
+.letter { width: calc(100% - 62px); }
+.letter h1 { font-size: 37px; }
+.letter-body { font-size: 22px; }
+.letter-body .devotion { font-size: 28px; }
+.letter-body .promise { font-size: 26px; }
 }
-
 /* Short screens scroll naturally; text is never clipped to the viewport. */
 @media (max-height: 640px) {
-  .page { padding-top: 14px; }
-  .greeting { padding-bottom: 10px; }
-  .gift, .letter { min-height: 420px; }
+.page { padding-top: 14px; }
+.greeting { padding-bottom: 10px; }
+.gift, .letter { min-height: 420px; }
 }
-
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation: none !important;
-    transition: none !important;
-  }
-  .gift[open] .gift-trigger { visibility: hidden; }
-  .gift[open] .letter { opacity: 1; transform: none; }
+*, *::before, *::after {
+animation: none !important;
+transition: none !important;
 }
-
+.gift[open] .gift-trigger { visibility: hidden; }
+.gift[open] .letter { opacity: 1; transform: none; }
+}
 /* Pause decorative CSS work while the browser tab is hidden. */
 body.sleeping *,
 body.sleeping *::before,
 body.sleeping *::after {
-  animation-play-state: paused !important;
+animation-play-state: paused !important;
 }
 </style>
 </head>
-
 <body>
 <div class="atmosphere" aria-hidden="true">
-  <div class="background-dust"></div>
+<div class="background-dust"></div>
 </div>
 <canvas id="sparkles" aria-hidden="true"></canvas>
-
 <main class="page">
-  <header class="greeting" id="greeting">
-    <p class="greeting-title">Hey there love<span aria-hidden="true">♥</span></p>
-    <p class="greeting-hint">tap the heart to open your prezzie</p>
-  </header>
-
-  <section class="scene" aria-label="A little something for you">
-    <details class="gift" id="gift">
-      <summary class="gift-trigger" id="giftTrigger">
-        <span class="sr-only">Open your gift</span>
-        <span class="ground-shadow" aria-hidden="true"></span>
-
-        <div class="gift-art" aria-hidden="true">
-          <svg viewBox="0 0 360 360" focusable="false">
-            <defs>
-              <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1">
-                <stop stop-color="#843e63"/>
-                <stop offset=".45" stop-color="#652447"/>
-                <stop offset="1" stop-color="#421735"/>
-              </linearGradient>
-
-              <linearGradient id="edge" x1="0" y1="0" x2="1" y2="1">
-                <stop stop-color="#a25679"/>
-                <stop offset="1" stop-color="#3c142e"/>
-              </linearGradient>
-
-              <linearGradient id="goldVertical" x1="0" y1="0" x2="1" y2="0">
-                <stop stop-color="#bc913f"/>
-                <stop offset=".14" stop-color="#f0ce77"/>
-                <stop offset=".35" stop-color="#fff0b3"/>
-                <stop offset=".6" stop-color="#edc96c"/>
-                <stop offset=".84" stop-color="#f9dfa0"/>
-                <stop offset="1" stop-color="#bd9445"/>
-              </linearGradient>
-
-              <linearGradient id="goldHorizontal" x1="0" y1="0" x2="0" y2="1">
-                <stop stop-color="#fff0b5"/>
-                <stop offset=".2" stop-color="#ebc66d"/>
-                <stop offset=".58" stop-color="#f5d98d"/>
-                <stop offset="1" stop-color="#b98a3c"/>
-              </linearGradient>
-
-              <linearGradient id="bowGold" x1="0" y1="0" x2=".7" y2="1">
-                <stop stop-color="#fff3c6"/>
-                <stop offset=".32" stop-color="#f3d48a"/>
-                <stop offset=".68" stop-color="#d8ad52"/>
-                <stop offset="1" stop-color="#a9752c"/>
-              </linearGradient>
-
-              <linearGradient id="ivoryHeart" x1="0" y1="0" x2=".8" y2="1">
-                <stop stop-color="#fffef2"/>
-                <stop offset=".48" stop-color="#fff3d8"/>
-                <stop offset="1" stop-color="#e9ce9c"/>
-              </linearGradient>
-
-              <linearGradient id="shine" x1="0" y1="0" x2="1" y2="0">
-                <stop stop-color="#fff" stop-opacity="0"/>
-                <stop offset=".48" stop-color="#fffce2" stop-opacity=".8"/>
-                <stop offset="1" stop-color="#fff" stop-opacity="0"/>
-              </linearGradient>
-
-              <pattern id="paperPattern" width="26" height="26" patternUnits="userSpaceOnUse">
-                <path d="M13 3L23 13 13 23 3 13Z"
-                      fill="none" stroke="#ffd9b8" stroke-opacity=".075" stroke-width=".7"/>
-                <circle cx="13" cy="13" r="1" fill="#ffd9b8" fill-opacity=".13"/>
-              </pattern>
-
-              <clipPath id="ribbonClip">
-                <rect x="155" y="70" width="34" height="234"/>
-                <rect x="44" y="170" width="256" height="34"/>
-              </clipPath>
-            </defs>
-
-            <!-- Narrow top and side edges give a front-facing package depth. -->
-            <g class="depth">
-              <path d="M44 70L60 56H316L300 70Z" fill="url(#edge)"/>
-              <path d="M300 70L316 56V288L300 304Z" fill="#361127"/>
-              <path d="M155 70L171 56H205L189 70Z" fill="url(#goldHorizontal)"/>
-              <path d="M300 170L316 156V190L300 204Z" fill="#d4a955"/>
-              <path d="M60 56H316V288" fill="none" stroke="#e5acba" stroke-opacity=".2"/>
-            </g>
-
-            <g class="panel-tl">
-              <path d="M50 70H172V187H44V76Q44 70 50 70Z" fill="url(#paper)"/>
-              <path d="M50 70H172V187H44V76Q44 70 50 70Z" fill="url(#paperPattern)"/>
-              <path d="M49 73H172M47 77V187" fill="none" stroke="#e3a2b5" stroke-opacity=".28"/>
-            </g>
-            <g class="panel-tr">
-              <path d="M172 70H294Q300 70 300 76V187H172Z" fill="url(#paper)"/>
-              <path d="M172 70H294Q300 70 300 76V187H172Z" fill="url(#paperPattern)"/>
-              <path d="M172 73H294" fill="none" stroke="#e3a2b5" stroke-opacity=".28"/>
-            </g>
-            <g class="panel-bl">
-              <path d="M44 187H172V304H50Q44 304 44 298Z" fill="url(#paper)"/>
-              <path d="M44 187H172V304H50Q44 304 44 298Z" fill="url(#paperPattern)"/>
-              <path d="M47 187V297" fill="none" stroke="#e3a2b5" stroke-opacity=".2"/>
-            </g>
-            <g class="panel-br">
-              <path d="M172 187H300V298Q300 304 294 304H172Z" fill="url(#paper)"/>
-              <path d="M172 187H300V298Q300 304 294 304H172Z" fill="url(#paperPattern)"/>
-              <path d="M297 187V299H172" fill="none" stroke="#210b23" stroke-opacity=".4"/>
-            </g>
-
-            <g class="wrapping">
-              <rect x="153" y="70" width="38" height="234" fill="#220e24" opacity=".18"/>
-              <rect x="44" y="169" width="256" height="38" fill="#220e24" opacity=".18"/>
-              <rect x="155" y="70" width="34" height="234" fill="url(#goldVertical)"/>
-              <rect x="44" y="170" width="256" height="34" fill="url(#goldHorizontal)"/>
-              <path d="M158 70V304M186 70V304M44 173H300M44 201H300"
-                    stroke="#fff2bc" stroke-opacity=".5" stroke-width=".8"/>
-              <g clip-path="url(#ribbonClip)">
-                <path class="ribbon-shine" d="M125 40H173L245 328H197Z" fill="url(#shine)"/>
-              </g>
-            </g>
-
-            <!-- Sculpted loops and notched tails: a bow, not a circular badge. -->
-            <g class="bow">
-              <path d="M160 182Q147 205 134 242L152 235 165 247 178 189Z"
-                    fill="url(#bowGold)" stroke="#ffe9ae" stroke-opacity=".4"/>
-              <path d="M176 182Q193 208 211 235L193 232 185 247 165 189Z"
-                    fill="url(#bowGold)" stroke="#ffe9ae" stroke-opacity=".4"/>
-
-              <path d="M172 182C142 143 112 141 114 166C116 191 146 202 172 186Z"
-                    fill="#2c1127" opacity=".3" transform="translate(0 4)"/>
-              <path d="M172 182C202 141 235 144 231 169C227 194 198 199 172 186Z"
-                    fill="#2c1127" opacity=".3" transform="translate(0 4)"/>
-
-              <path d="M172 182C142 143 112 141 114 166C116 191 146 202 172 186Z"
-                    fill="url(#bowGold)" stroke="#ffebb2" stroke-width="1.1"/>
-              <path d="M172 182C202 141 235 144 231 169C227 194 198 199 172 186Z"
-                    fill="url(#bowGold)" stroke="#ffebb2" stroke-width="1.1"/>
-
-              <path d="M166 181Q134 158 123 158Q125 178 159 185"
-                    fill="#a57431" opacity=".48"/>
-              <path d="M178 181Q210 157 222 159Q216 180 185 185"
-                    fill="#a57431" opacity=".43"/>
-              <path d="M122 155Q139 151 167 179M180 179Q208 152 225 155"
-                    fill="none" stroke="#fff4c4" stroke-width="2" stroke-linecap="round"/>
-
-              <!-- The whole medallion is an ivory HEART. There is no disc. -->
-              <g class="heart-jewel">
-                <path d="M172 208C164 201 146 190 146 177C146 163 164 158 172 171C180 158 198 163 198 177C198 190 180 201 172 208Z"
-                      fill="#291025" opacity=".35" transform="translate(0 3)"/>
-                <path d="M172 208C164 201 146 190 146 177C146 163 164 158 172 171C180 158 198 163 198 177C198 190 180 201 172 208Z"
-                      fill="url(#ivoryHeart)" stroke="#e4bd70" stroke-width="1.5"/>
-                <path d="M152 178C152 169 161 167 166 173"
-                      fill="none" stroke="#fffef7" stroke-width="2.5" stroke-linecap="round"/>
-              </g>
-
-              <path class="bow-spark" d="M127 145L129 151 135 153 129 155 127 161 125 155 119 153 125 151Z"
-                    fill="#fff4c5"/>
-              <path class="bow-spark second" d="M216 193L217.5 198 223 199.5 217.5 201 216 206 214.5 201 209 199.5 214.5 198Z"
-                    fill="#fff4c5"/>
-            </g>
-          </svg>
-          <span class="open-light"></span>
-        </div>
-      </summary>
-
-      <article class="letter" id="letter" tabindex="-1" aria-label="Your message">
-        <div class="letter-kiss">🥰</div>
-        <h1>Thank you</h1>
-        <p class="letter-body">
-          <span class="line">for your constant</span>
-          <em class="devotion">love and support,</em>
-          <span class="line">you deserve more than</span>
-          <strong class="promise">just a special message <span class="mischief">😈</span></strong>
-        </p>
-        <div class="letter-signature" aria-hidden="true">· ♥ ·</div>
-      </article>
-    </details>
-  </section>
-
-  <footer class="page-footer">
-    <button class="replay" id="replay" type="button" hidden>See it again ↺</button>
-  </footer>
+<header class="greeting" id="greeting">
+<p class="greeting-title">Hey there love<span aria-hidden="true"></span></p>
+<p class="greeting-hint">tap the heart to open your prezzie</p>
+</header>
+<section class="scene" aria-label="A little something for you">
+<details class="gift" id="gift">
+<summary class="gift-trigger" id="giftTrigger">
+<span class="sr-only">Open your gift</span>
+<span class="ground-shadow" aria-hidden="true"></span>
+<div class="gift-art" aria-hidden="true">
+<svg viewBox="0 0 360 360" focusable="false">
+<defs>
+<linearGradient id="paper" x1="0" y1="0" x2="1" y2="1">
+<stop stop-color="#843e63"/>
+<stop offset=".45" stop-color="#652447"/>
+<stop offset="1" stop-color="#421735"/>
+</linearGradient>
+<linearGradient id="edge" x1="0" y1="0" x2="1" y2="1">
+<stop stop-color="#a25679"/>
+<stop offset="1" stop-color="#3c142e"/>
+</linearGradient>
+<linearGradient id="goldVertical" x1="0" y1="0" x2="1" y2="0">
+<stop stop-color="#bc913f"/>
+<stop offset=".14" stop-color="#f0ce77"/>
+<stop offset=".35" stop-color="#fff0b3"/>
+<stop offset=".6" stop-color="#edc96c"/>
+<stop offset=".84" stop-color="#f9dfa0"/>
+<stop offset="1" stop-color="#bd9445"/>
+</linearGradient>
+<linearGradient id="goldHorizontal" x1="0" y1="0" x2="0" y2="1">
+<stop stop-color="#fff0b5"/>
+<stop offset=".2" stop-color="#ebc66d"/>
+<stop offset=".58" stop-color="#f5d98d"/>
+<stop offset="1" stop-color="#b98a3c"/>
+</linearGradient>
+<linearGradient id="bowGold" x1="0" y1="0" x2=".7" y2="1">
+<stop stop-color="#fff3c6"/>
+<stop offset=".32" stop-color="#f3d48a"/>
+<stop offset=".68" stop-color="#d8ad52"/>
+<stop offset="1" stop-color="#a9752c"/>
+</linearGradient>
+<linearGradient id="ivoryHeart" x1="0" y1="0" x2=".8" y2="1">
+<stop stop-color="#fffef2"/>
+<stop offset=".48" stop-color="#fff3d8"/>
+<stop offset="1" stop-color="#e9ce9c"/>
+</linearGradient>
+<linearGradient id="shine" x1="0" y1="0" x2="1" y2="0">
+<stop stop-color="#fff" stop-opacity="0"/>
+<stop offset=".48" stop-color="#fffce2" stop-opacity=".8"/>
+<stop offset="1" stop-color="#fff" stop-opacity="0"/>
+</linearGradient>
+<pattern id="paperPattern" width="26" height="26" patternUnits="userSpaceOnUse">
+<path d="M13 3L23 13 13 23 3 13Z"
+fill="none" stroke="#ffd9b8" stroke-opacity=".075" stroke-width=".7"/>
+<circle cx="13" cy="13" r="1" fill="#ffd9b8" fill-opacity=".13"/>
+</pattern>
+<clipPath id="ribbonClip">
+<rect x="155" y="70" width="34" height="234"/>
+<rect x="44" y="170" width="256" height="34"/>
+</clipPath>
+</defs>
+<!-- Narrow top and side edges give a front-facing package depth. -->
+<g class="depth">
+<path d="M44 70L60 56H316L300 70Z" fill="url(#edge)"/>
+<path d="M300 70L316 56V288L300 304Z" fill="#361127"/>
+<path d="M155 70L171 56H205L189 70Z" fill="url(#goldHorizontal)"/>
+<path d="M300 170L316 156V190L300 204Z" fill="#d4a955"/>
+<path d="M60 56H316V288" fill="none" stroke="#e5acba" stroke-opacity=".2"/>
+</g>
+<g class="panel-tl">
+<path d="M50 70H172V187H44V76Q44 70 50 70Z" fill="url(#paper)"/>
+<path d="M50 70H172V187H44V76Q44 70 50 70Z" fill="url(#paperPattern)"/>
+<path d="M49 73H172M47 77V187" fill="none" stroke="#e3a2b5" stroke-opacity=".28"/>
+</g>
+<g class="panel-tr">
+<path d="M172 70H294Q300 70 300 76V187H172Z" fill="url(#paper)"/>
+<path d="M172 70H294Q300 70 300 76V187H172Z" fill="url(#paperPattern)"/>
+<path d="M172 73H294" fill="none" stroke="#e3a2b5" stroke-opacity=".28"/>
+</g>
+<g class="panel-bl">
+<path d="M44 187H172V304H50Q44 304 44 298Z" fill="url(#paper)"/>
+<path d="M44 187H172V304H50Q44 304 44 298Z" fill="url(#paperPattern)"/>
+<path d="M47 187V297" fill="none" stroke="#e3a2b5" stroke-opacity=".2"/>
+</g>
+<g class="panel-br">
+<path d="M172 187H300V298Q300 304 294 304H172Z" fill="url(#paper)"/>
+<path d="M172 187H300V298Q300 304 294 304H172Z" fill="url(#paperPattern)"/>
+<path d="M297 187V299H172" fill="none" stroke="#210b23" stroke-opacity=".4"/>
+</g>
+<g class="wrapping">
+<rect x="153" y="70" width="38" height="234" fill="#220e24" opacity=".18"/>
+<rect x="44" y="169" width="256" height="38" fill="#220e24" opacity=".18"/>
+<rect x="155" y="70" width="34" height="234" fill="url(#goldVertical)"/>
+<rect x="44" y="170" width="256" height="34" fill="url(#goldHorizontal)"/>
+<path d="M158 70V304M186 70V304M44 173H300M44 201H300"
+stroke="#fff2bc" stroke-opacity=".5" stroke-width=".8"/>
+<g clip-path="url(#ribbonClip)">
+<path class="ribbon-shine" d="M125 40H173L245 328H197Z" fill="url(#shine)"/>
+</g>
+</g>
+<!-- Sculpted loops and notched tails: a bow, not a circular badge. -->
+<g class="bow">
+<path d="M160 182Q147 205 134 242L152 235 165 247 178 189Z"
+fill="url(#bowGold)" stroke="#ffe9ae" stroke-opacity=".4"/>
+<path d="M176 182Q193 208 211 235L193 232 185 247 165 189Z"
+fill="url(#bowGold)" stroke="#ffe9ae" stroke-opacity=".4"/>
+<path d="M172 182C142 143 112 141 114 166C116 191 146 202 172 186Z"
+fill="#2c1127" opacity=".3" transform="translate(0 4)"/>
+<path d="M172 182C202 141 235 144 231 169C227 194 198 199 172 186Z"
+fill="#2c1127" opacity=".3" transform="translate(0 4)"/>
+<path d="M172 182C142 143 112 141 114 166C116 191 146 202 172 186Z"
+fill="url(#bowGold)" stroke="#ffebb2" stroke-width="1.1"/>
+<path d="M172 182C202 141 235 144 231 169C227 194 198 199 172 186Z"
+fill="url(#bowGold)" stroke="#ffebb2" stroke-width="1.1"/>
+<path d="M166 181Q134 158 123 158Q125 178 159 185"
+fill="#a57431" opacity=".48"/>
+<path d="M178 181Q210 157 222 159Q216 180 185 185"
+fill="#a57431" opacity=".43"/>
+<path d="M122 155Q139 151 167 179M180 179Q208 152 225 155"
+fill="none" stroke="#fff4c4" stroke-width="2" stroke-linecap="round"/>
+<!-- The whole medallion is an ivory HEART. There is no disc. -->
+<g class="heart-jewel">
+<path d="M172 208C164 201 146 190 146 177C146 163 164 158 172 171C180 158 198 163 198 177C198 190 180 201 172 208Z"
+fill="#291025" opacity=".35" transform="translate(0 3)"/>
+<path d="M172 208C164 201 146 190 146 177C146 163 164 158 172 171C180 158 198 163 198 177C198 190 180 201 172 208Z"
+fill="url(#ivoryHeart)" stroke="#e4bd70" stroke-width="1.5"/>
+<path d="M152 178C152 169 161 167 166 173"
+fill="none" stroke="#fffef7" stroke-width="2.5" stroke-linecap="round"/>
+</g>
+<path class="bow-spark" d="M127 145L129 151 135 153 129 155 127 161 125 155 119 153 125 151Z"
+fill="#fff4c5"/>
+<path class="bow-spark second" d="M216 193L217.5 198 223 199.5 217.5 201 216 206 214.5 201 209 199.5 214.5 198Z"
+fill="#fff4c5"/>
+</g>
+</svg>
+<span class="open-light"></span>
+</div>
+</summary>
+<article class="letter" id="letter" tabindex="-1" aria-label="Your message">
+<div class="letter-kiss"></div>
+<h1>Thank you</h1>
+<p class="letter-body">
+<span class="line">for your constant</span>
+<em class="devotion">love and support,</em>
+<span class="line">you deserve more than</span>
+<strong class="promise">just a special message <span class="mischief"></span></strong>
+</p>
+<div class="letter-signature" aria-hidden="true">· ·</div>
+</article>
+</details>
+</section>
+<footer class="page-footer">
+<button class="replay" id="replay" type="button" hidden>See it again ↺</button>
+</footer>
 </main>
-
 <script>
 (function () {
-  "use strict";
-
-  /*
-    Interaction is set up before optional decoration.
-
-    Input: tap/click the native summary, or press Enter/Space while focused.
-    Output: the browser opens the gift and exposes the complete message.
-    Replay closes it and restores the invitation.
-
-    Canvas failure cannot prevent the native reveal.
-    Empty/invalid message input is not applicable: the note is fixed HTML.
-  */
-  const gift = document.getElementById("gift");
-  const trigger = document.getElementById("giftTrigger");
-  const letter = document.getElementById("letter");
-  const greeting = document.getElementById("greeting");
-  const replay = document.getElementById("replay");
-
-  let effects = null;
-  let replayTimer = 0;
-  let wasOpen = false;
-  let origin = null;
-
-  function focusSafely(element) {
-    try {
-      element.focus({ preventScroll: true });
-    } catch (error) {
-      try { element.focus(); } catch (ignored) {}
-    }
-  }
-
-  // Capture the jewel's position before the native opening changes layout.
-  trigger.addEventListener("click", function () {
-    const r = trigger.getBoundingClientRect();
-    origin = { x: r.left + r.width * 172 / 360, y: r.top + r.height * .51 };
-  });
-
-  function syncGift() {
-    const open = gift.open;
-    document.body.classList.toggle("revealed", open);
-    greeting.setAttribute("aria-hidden", open ? "true" : "false");
-    trigger.tabIndex = open ? -1 : 0;
-    clearTimeout(replayTimer);
-
-    if (open && !wasOpen) {
-      wasOpen = true;
-      focusSafely(letter);
-
-      if (effects) {
-        try { effects.open(origin); }
-        catch (error) { console.warn("Love Box: decorative burst skipped.", error); }
-      }
-
-      replayTimer = window.setTimeout(function () {
-        if (gift.open) replay.hidden = false;
-      }, 1900);
-    } else if (!open) {
-      wasOpen = false;
-      replay.hidden = true;
-      if (effects) effects.reset();
-    }
-  }
-
-  gift.addEventListener("toggle", syncGift);
-
-  replay.addEventListener("click", function () {
-    gift.open = false;
-    syncGift();
-    focusSafely(trigger);
-  });
-
-  /*
-    Optional canvas renderer.
-
-    Background: sparse, slow-moving light.
-    Reveal: a short glitter bloom and 42 recognizable hearts/stars.
-    Floaters expand onto bounded, rounded orbits around the actual message.
-    They stay until 14 seconds, then fade together by 18 seconds.
-    No gravity or off-screen particle removal cuts the moment short.
-
-    Uses elapsed time, capped pixel density, and roughly 30fps rendering.
-    Hidden tabs pause. Reduced-motion users get the stationary design.
-  */
-  function createEffects() {
-    const canvas = document.getElementById("sparkles");
-    let context;
-
-    try { context = canvas.getContext("2d"); }
-    catch (error) { return null; }
-
-    if (!context || typeof window.requestAnimationFrame !== "function") return null;
-
-    let motionQuery = null;
-    try {
-      if (typeof window.matchMedia === "function") {
-        motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-      }
-    } catch (ignored) {}
-
-    let reduced = !!(motionQuery && motionQuery.matches);
-    let width = 1;
-    let height = 1;
-    let ratio = 1;
-    let ambient = [];
-    let floaters = [];
-    let glitter = [];
-    let burstOrigin = null;
-    let bounds = null;
-    let boundsDirty = true;
-    let frameId = 0;
-    let lastFrame = 0;
-    let clock = 0;
-    let revealTime = -1;
-    let stopped = false;
-
-    const TAU = Math.PI * 2;
-
-    function random(low, high) {
-      return low + Math.random() * (high - low);
-    }
-
-    function clamp(value, low, high) {
-      return Math.max(low, Math.min(high, value));
-    }
-
-    function easeOut(value) {
-      return 1 - Math.pow(1 - clamp(value, 0, 1), 3);
-    }
-
-    // Input: viewport. Output: a sharp, memory-capped drawing surface.
-    function resize() {
-      width = Math.max(1, window.innerWidth || document.documentElement.clientWidth);
-      height = Math.max(1, window.innerHeight || document.documentElement.clientHeight);
-      ratio = clamp(window.devicePixelRatio || 1, 1, 2);
-      canvas.width = Math.round(width * ratio);
-      canvas.height = Math.round(height * ratio);
-      canvas.style.width = width + "px";
-      canvas.style.height = height + "px";
-      context.setTransform(ratio, 0, 0, ratio, 0, 0);
-
-      ambient = [];
-      const count = Math.min(62, Math.max(22, Math.round(width * height / 11000)));
-      for (let i = 0; i < count; i++) {
-        ambient.push({
-          x: Math.random(),
-          y: Math.random(),
-          size: random(.55, 1.55),
-          phase: random(0, TAU),
-          speed: random(.35, .85),
-          drift: random(.001, .003),
-          bright: i % 9 === 0
-        });
-      }
-      boundsDirty = true;
-      if (reduced) drawAmbient();
-    }
-
-    // Read layout only when needed, not for every individual particle.
-    function measure() {
-      const r = letter.getBoundingClientRect();
-      const centerX = r.left + r.width / 2;
-
-      bounds = {
-        x: centerX,
-        y: r.top + r.height / 2,
-        rx: Math.max(28, Math.min(
-          r.width / 2 + 17,
-          centerX - 17,
-          width - centerX - 17
-        )),
-        ry: r.height / 2 + 8
-      };
-      boundsDirty = false;
-    }
-
-    function heart(size) {
-      context.beginPath();
-      context.moveTo(0, size * .82);
-      context.bezierCurveTo(-size * .35, size * .52, -size, .02 * size, -size, -size * .36);
-      context.bezierCurveTo(-size, -size * .98, -size * .28, -size * 1.12, 0, -size * .55);
-      context.bezierCurveTo(size * .28, -size * 1.12, size, -size * .98, size, -size * .36);
-      context.bezierCurveTo(size, .02 * size, size * .35, size * .52, 0, size * .82);
-      context.closePath();
-    }
-
-    function star(size) {
-      context.beginPath();
-      for (let i = 0; i < 10; i++) {
-        const angle = -Math.PI / 2 + i * Math.PI / 5;
-        const radius = i % 2 ? size * .45 : size;
-        const x = Math.cos(angle) * radius;
-        const y = Math.sin(angle) * radius;
-        if (i === 0) context.moveTo(x, y);
-        else context.lineTo(x, y);
-      }
-      context.closePath();
-    }
-
-    function cross(x, y, size, alpha) {
-      context.globalAlpha = clamp(alpha, 0, 1);
-      context.fillStyle = "#fff0bc";
-      context.beginPath();
-      context.moveTo(x, y - size);
-      context.lineTo(x + size * .19, y - size * .19);
-      context.lineTo(x + size, y);
-      context.lineTo(x + size * .19, y + size * .19);
-      context.lineTo(x, y + size);
-      context.lineTo(x - size * .19, y + size * .19);
-      context.lineTo(x - size, y);
-      context.lineTo(x - size * .19, y - size * .19);
-      context.closePath();
-      context.fill();
-    }
-
-    function drawAmbient() {
-      context.clearRect(0, 0, width, height);
-
-      for (const p of ambient) {
-        const phase = clock * p.speed + p.phase;
-        const alpha = reduced ? .35 : .16 + .36 * (.5 + .5 * Math.sin(phase));
-        const x = p.x * width + Math.sin(phase * .35) * 5;
-        const y = ((p.y - clock * p.drift) % 1 + 1) % 1 * height;
-
-        context.globalAlpha = alpha;
-        context.fillStyle = "#ffe6b3";
-        context.beginPath();
-        context.arc(x, y, p.size, 0, TAU);
-        context.fill();
-        if (p.bright) cross(x, y, p.size * 2.8, alpha * .6);
-      }
-      context.globalAlpha = 1;
-    }
-
-    function drawFloater(p, age, fade) {
-      const travel = easeOut((age - p.delay) / 1.9);
-      const angle = p.angle + age * p.speed;
-      const cosine = Math.cos(angle);
-      const sine = Math.sin(angle);
-
-      // Rounded rectangular paths leave the middle for the wording.
-      const orbitX = Math.sign(cosine) * Math.pow(Math.abs(cosine), .34);
-      const orbitY = Math.sign(sine) * Math.pow(Math.abs(sine), .34);
-      const breathing = Math.sin(age * .7 + p.phase) * 3;
-      const targetX = bounds.x + orbitX * (bounds.rx - p.lane + breathing);
-      const targetY = bounds.y + orbitY * (bounds.ry - p.lane + breathing);
-      const x = burstOrigin.x + (targetX - burstOrigin.x) * travel;
-      const y = burstOrigin.y + (targetY - burstOrigin.y) * travel;
-      const appear = clamp((age - p.delay) * 3, 0, 1);
-      const twinkle = p.type === "star" ? .74 + .26 * Math.sin(age * 1.7 + p.phase) : 1;
-
-      context.save();
-      context.translate(x, y);
-
-      // Hearts rock gently and stay recognizable instead of tumbling rapidly.
-      context.rotate(p.type === "star"
-        ? p.phase * .25 + age * .12 * p.direction
-        : Math.sin(age * .8 + p.phase) * .22);
-
-      context.globalAlpha = fade * appear * twinkle * .95;
-
-      const gradient = context.createLinearGradient(-p.size, -p.size, p.size, p.size);
-      if (p.type === "star") {
-        gradient.addColorStop(0, "#fff3bc");
-        gradient.addColorStop(.55, "#f3d17a");
-        gradient.addColorStop(1, "#c69844");
-        star(p.size);
-      } else {
-        gradient.addColorStop(0, p.type === "rose" ? "#ffd0e2" : "#f789b1");
-        gradient.addColorStop(.5, p.type === "rose" ? "#ffa1c8" : "#d34b82");
-        gradient.addColorStop(1, p.type === "rose" ? "#de619d" : "#ad2f64");
-        heart(p.size);
-      }
-
-      context.fillStyle = gradient;
-      context.fill();
-      context.strokeStyle = p.type === "star" ? "#fff2bb" : "#ffd8e5";
-      context.lineWidth = .55;
-      context.stroke();
-
-      if (p.type === "star") {
-        cross(-p.size * .15, -p.size * .25, p.size * .37, fade * appear * twinkle);
-      } else {
-        context.globalAlpha *= .55;
-        context.fillStyle = "#fff0f3";
-        context.beginPath();
-        context.ellipse(-p.size * .42, -p.size * .43, p.size * .13, p.size * .23, .5, 0, TAU);
-        context.fill();
-      }
-      context.restore();
-    }
-
-    function drawReveal() {
-      if (revealTime < 0) return;
-      const age = clock - revealTime;
-      if (boundsDirty || age < 2) measure();
-
-      if (age >= 18) {
-        revealTime = -1;
-        floaters = [];
-        glitter = [];
-        return;
-      }
-
-      const fade = 1 - clamp((age - 14) / 4, 0, 1);
-
-      for (const p of floaters) {
-        if (age >= p.delay) drawFloater(p, age, fade);
-      }
-
-      // A restrained glitter bloom, separate from the long-lived floaters.
-      for (const p of glitter) {
-        const life = age - p.delay;
-        if (life < 0 || life > p.life) continue;
-        const progress = easeOut(life / p.life);
-        const x = burstOrigin.x + Math.cos(p.angle) * p.distance * progress;
-        const y = burstOrigin.y + Math.sin(p.angle) * p.distance * progress;
-        cross(x, y, p.size * (1 - progress * .35), Math.sin(Math.PI * life / p.life) * .85);
-      }
-      context.globalAlpha = 1;
-    }
-
-    function stopOnError(error) {
-      stopped = true;
-      if (frameId) cancelAnimationFrame(frameId);
-      frameId = 0;
-      canvas.style.display = "none";
-      console.warn("Love Box: optional visual effects stopped; the gift still opens.", error);
-    }
-
-    function tick(timestamp) {
-      frameId = 0;
-      if (stopped || reduced || document.hidden) return;
-
-      if (!lastFrame) lastFrame = timestamp;
-      const elapsed = timestamp - lastFrame;
-
-      if (elapsed >= 32) {
-        clock += Math.min(elapsed / 1000, .08);
-        lastFrame = timestamp;
-        try {
-          drawAmbient();
-          drawReveal();
-        } catch (error) {
-          stopOnError(error);
-          return;
-        }
-      }
-      frameId = requestAnimationFrame(tick);
-    }
-
-    function start() {
-      if (!stopped && !reduced && !document.hidden && !frameId) {
-        lastFrame = 0;
-        frameId = requestAnimationFrame(tick);
-      }
-    }
-
-    function open(point) {
-      if (reduced || stopped) return;
-      measure();
-      burstOrigin = point || { x: bounds.x, y: bounds.y };
-      revealTime = clock;
-      floaters = [];
-      glitter = [];
-
-      for (let i = 0; i < 42; i++) {
-        const direction = i % 3 === 0 ? -1 : 1;
-        floaters.push({
-          type: ["rose", "berry", "star"][i % 3],
-          angle: i / 42 * TAU + random(-.04, .04),
-          phase: random(0, TAU),
-          speed: random(.1, .17) * direction,
-          direction: direction,
-          lane: random(-2, 7),
-          delay: random(.02, .42),
-          size: i % 3 === 2 ? random(7, 10) : random(7, 10.5)
-        });
-      }
-
-      for (let i = 0; i < 25; i++) {
-        glitter.push({
-          angle: random(0, TAU),
-          distance: random(35, Math.min(width * .4, 145)),
-          size: random(2, 4.5),
-          delay: random(0, .2),
-          life: random(.8, 1.5)
-        });
-      }
-      start();
-    }
-
-    function reset() {
-      revealTime = -1;
-      floaters = [];
-      glitter = [];
-      boundsDirty = true;
-      if (reduced) drawAmbient();
-    }
-
-    function motionChanged() {
-      reduced = !!(motionQuery && motionQuery.matches);
-      if (frameId) cancelAnimationFrame(frameId);
-      frameId = 0;
-      reset();
-      if (reduced) drawAmbient();
-      else start();
-    }
-
-    // Initialize data before resizing; nothing reads an uninitialized star list.
-    resize();
-    start();
-
-    window.addEventListener("resize", function () {
-      try { resize(); } catch (error) { stopOnError(error); }
-    }, { passive: true });
-
-    window.addEventListener("scroll", function () {
-      boundsDirty = true;
-    }, { passive: true });
-
-    document.addEventListener("visibilitychange", function () {
-      document.body.classList.toggle("sleeping", document.hidden);
-      if (document.hidden) {
-        if (frameId) cancelAnimationFrame(frameId);
-        frameId = 0;
-      } else {
-        boundsDirty = true;
-        start();
-      }
-    });
-
-    window.addEventListener("pageshow", function () {
-      boundsDirty = true;
-      start();
-    });
-
-    if (motionQuery) {
-      if (typeof motionQuery.addEventListener === "function") {
-        motionQuery.addEventListener("change", motionChanged);
-      } else if (typeof motionQuery.addListener === "function") {
-        motionQuery.addListener(motionChanged);
-      }
-    }
-
-    return { open: open, reset: reset };
-  }
-
-  try {
-    effects = createEffects();
-  } catch (error) {
-    console.warn("Love Box: canvas unavailable; using the native reveal.", error);
-  }
-
-  // Also handles a browser restoring an already-open gift from its page cache.
-  syncGift();
+"use strict";
+/*
+Interaction is set up before optional decoration.
+Input: tap/click the native summary, or press Enter/Space while focused.
+Output: the browser opens the gift and exposes the complete message.
+Replay closes it and restores the invitation.
+Canvas failure cannot prevent the native reveal.
+Empty/invalid message input is not applicable: the note is fixed HTML.
+*/
+const gift = document.getElementById("gift");
+const trigger = document.getElementById("giftTrigger");
+const letter = document.getElementById("letter");
+const greeting = document.getElementById("greeting");
+const replay = document.getElementById("replay");
+let effects = null;
+let replayTimer = 0;
+let wasOpen = false;
+let origin = null;
+function focusSafely(element) {
+try {
+element.focus({ preventScroll: true });
+} catch (error) {
+try { element.focus(); } catch (ignored) {}
+}
+}
+// Capture the jewel's position before the native opening changes layout.
+trigger.addEventListener("click", function () {
+const r = trigger.getBoundingClientRect();
+origin = { x: r.left + r.width * 172 / 360, y: r.top + r.height * .51 };
+});
+function syncGift() {
+const open = gift.open;
+document.body.classList.toggle("revealed", open);
+greeting.setAttribute("aria-hidden", open ? "true" : "false");
+trigger.tabIndex = open ? -1 : 0;
+clearTimeout(replayTimer);
+if (open && !wasOpen) {
+wasOpen = true;
+focusSafely(letter);
+if (effects) {
+try { effects.open(origin); }
+catch (error) { console.warn("Love Box: decorative burst skipped.", error); }
+}
+replayTimer = window.setTimeout(function () {
+if (gift.open) replay.hidden = false;
+}, 1900);
+} else if (!open) {
+wasOpen = false;
+replay.hidden = true;
+if (effects) effects.reset();
+}
+}
+gift.addEventListener("toggle", syncGift);
+replay.addEventListener("click", function () {
+gift.open = false;
+syncGift();
+focusSafely(trigger);
+});
+/*
+Optional canvas renderer.
+Background: sparse, slow-moving light.
+Reveal: a short glitter bloom and 42 recognizable hearts/stars.
+Floaters expand onto bounded, rounded orbits around the actual message.
+They stay until 14 seconds, then fade together by 18 seconds.
+No gravity or off-screen particle removal cuts the moment short.
+Uses elapsed time, capped pixel density, and roughly 30fps rendering.
+Hidden tabs pause. Reduced-motion users get the stationary design.
+*/
+function createEffects() {
+const canvas = document.getElementById("sparkles");
+let context;
+try { context = canvas.getContext("2d"); }
+catch (error) { return null; }
+if (!context || typeof window.requestAnimationFrame !== "function") return null;
+let motionQuery = null;
+try {
+if (typeof window.matchMedia === "function") {
+motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+}
+} catch (ignored) {}
+let reduced = !!(motionQuery && motionQuery.matches);
+let width = 1;
+let height = 1;
+let ratio = 1;
+let ambient = [];
+let floaters = [];
+let glitter = [];
+let burstOrigin = null;
+let bounds = null;
+let boundsDirty = true;
+let frameId = 0;
+let lastFrame = 0;
+let clock = 0;
+let revealTime = -1;
+let stopped = false;
+const TAU = Math.PI * 2;
+function random(low, high) {
+return low + Math.random() * (high - low);
+}
+function clamp(value, low, high) {
+return Math.max(low, Math.min(high, value));
+}
+function easeOut(value) {
+return 1 - Math.pow(1 - clamp(value, 0, 1), 3);
+}
+// Input: viewport. Output: a sharp, memory-capped drawing surface.
+function resize() {
+width = Math.max(1, window.innerWidth || document.documentElement.clientWidth);
+height = Math.max(1, window.innerHeight || document.documentElement.clientHeight);
+ratio = clamp(window.devicePixelRatio || 1, 1, 2);
+canvas.width = Math.round(width * ratio);
+canvas.height = Math.round(height * ratio);
+canvas.style.width = width + "px";
+canvas.style.height = height + "px";
+context.setTransform(ratio, 0, 0, ratio, 0, 0);
+ambient = [];
+const count = Math.min(62, Math.max(22, Math.round(width * height / 11000)));
+for (let i = 0; i < count; i++) {
+ambient.push({
+x: Math.random(),
+y: Math.random(),
+size: random(.55, 1.55),
+phase: random(0, TAU),
+speed: random(.35, .85),
+drift: random(.001, .003),
+bright: i % 9 === 0
+});
+}
+boundsDirty = true;
+if (reduced) drawAmbient();
+}
+// Read layout only when needed, not for every individual particle.
+function measure() {
+const r = letter.getBoundingClientRect();
+const centerX = r.left + r.width / 2;
+bounds = {
+x: centerX,
+y: r.top + r.height / 2,
+rx: Math.max(28, Math.min(
+r.width / 2 + 17,
+centerX - 17,
+width - centerX - 17
+)),
+ry: r.height / 2 + 8
+};
+boundsDirty = false;
+}
+function heart(size) {
+context.beginPath();
+context.moveTo(0, size * .82);
+context.bezierCurveTo(-size * .35, size * .52, -size, .02 * size, -size, -size * .36);
+context.bezierCurveTo(-size, -size * .98, -size * .28, -size * 1.12, 0, -size * .55);
+context.bezierCurveTo(size * .28, -size * 1.12, size, -size * .98, size, -size * .36);
+context.bezierCurveTo(size, .02 * size, size * .35, size * .52, 0, size * .82);
+context.closePath();
+}
+function star(size) {
+context.beginPath();
+for (let i = 0; i < 10; i++) {
+const angle = -Math.PI / 2 + i * Math.PI / 5;
+const radius = i % 2 ? size * .45 : size;
+const x = Math.cos(angle) * radius;
+const y = Math.sin(angle) * radius;
+if (i === 0) context.moveTo(x, y);
+else context.lineTo(x, y);
+}
+context.closePath();
+}
+function cross(x, y, size, alpha) {
+context.globalAlpha = clamp(alpha, 0, 1);
+context.fillStyle = "#fff0bc";
+context.beginPath();
+context.moveTo(x, y - size);
+context.lineTo(x + size * .19, y - size * .19);
+context.lineTo(x + size, y);
+context.lineTo(x + size * .19, y + size * .19);
+context.lineTo(x, y + size);
+context.lineTo(x - size * .19, y + size * .19);
+context.lineTo(x - size, y);
+context.lineTo(x - size * .19, y - size * .19);
+context.closePath();
+context.fill();
+}
+function drawAmbient() {
+context.clearRect(0, 0, width, height);
+for (const p of ambient) {
+const phase = clock * p.speed + p.phase;
+const alpha = reduced ? .35 : .16 + .36 * (.5 + .5 * Math.sin(phase));
+const x = p.x * width + Math.sin(phase * .35) * 5;
+const y = ((p.y - clock * p.drift) % 1 + 1) % 1 * height;
+context.globalAlpha = alpha;
+context.fillStyle = "#ffe6b3";
+context.beginPath();
+context.arc(x, y, p.size, 0, TAU);
+context.fill();
+if (p.bright) cross(x, y, p.size * 2.8, alpha * .6);
+}
+context.globalAlpha = 1;
+}
+function drawFloater(p, age, fade) {
+const travel = easeOut((age - p.delay) / 1.9);
+const angle = p.angle + age * p.speed;
+const cosine = Math.cos(angle);
+const sine = Math.sin(angle);
+// Rounded rectangular paths leave the middle for the wording.
+const orbitX = Math.sign(cosine) * Math.pow(Math.abs(cosine), .34);
+const orbitY = Math.sign(sine) * Math.pow(Math.abs(sine), .34);
+const breathing = Math.sin(age * .7 + p.phase) * 3;
+const targetX = bounds.x + orbitX * (bounds.rx - p.lane + breathing);
+const targetY = bounds.y + orbitY * (bounds.ry - p.lane + breathing);
+const x = burstOrigin.x + (targetX - burstOrigin.x) * travel;
+const y = burstOrigin.y + (targetY - burstOrigin.y) * travel;
+const appear = clamp((age - p.delay) * 3, 0, 1);
+const twinkle = p.type === "star" ? .74 + .26 * Math.sin(age * 1.7 + p.phase) : 1;
+context.save();
+context.translate(x, y);
+// Hearts rock gently and stay recognizable instead of tumbling rapidly.
+context.rotate(p.type === "star"
+? p.phase * .25 + age * .12 * p.direction
+: Math.sin(age * .8 + p.phase) * .22);
+context.globalAlpha = fade * appear * twinkle * .95;
+const gradient = context.createLinearGradient(-p.size, -p.size, p.size, p.size);
+if (p.type === "star") {
+gradient.addColorStop(0, "#fff3bc");
+gradient.addColorStop(.55, "#f3d17a");
+gradient.addColorStop(1, "#c69844");
+star(p.size);
+} else {
+gradient.addColorStop(0, p.type === "rose" ? "#ffd0e2" : "#f789b1");
+gradient.addColorStop(.5, p.type === "rose" ? "#ffa1c8" : "#d34b82");
+gradient.addColorStop(1, p.type === "rose" ? "#de619d" : "#ad2f64");
+heart(p.size);
+}
+context.fillStyle = gradient;
+context.fill();
+context.strokeStyle = p.type === "star" ? "#fff2bb" : "#ffd8e5";
+context.lineWidth = .55;
+context.stroke();
+if (p.type === "star") {
+cross(-p.size * .15, -p.size * .25, p.size * .37, fade * appear * twinkle);
+} else {
+context.globalAlpha *= .55;
+context.fillStyle = "#fff0f3";
+context.beginPath();
+context.ellipse(-p.size * .42, -p.size * .43, p.size * .13, p.size * .23, .5, 0, TAU);
+context.fill();
+}
+context.restore();
+}
+function drawReveal() {
+if (revealTime < 0) return;
+const age = clock - revealTime;
+if (boundsDirty || age < 2) measure();
+if (age >= 18) {
+revealTime = -1;
+floaters = [];
+glitter = [];
+return;
+}
+const fade = 1 - clamp((age - 14) / 4, 0, 1);
+for (const p of floaters) {
+if (age >= p.delay) drawFloater(p, age, fade);
+}
+// A restrained glitter bloom, separate from the long-lived floaters.
+for (const p of glitter) {
+const life = age - p.delay;
+if (life < 0 || life > p.life) continue;
+const progress = easeOut(life / p.life);
+const x = burstOrigin.x + Math.cos(p.angle) * p.distance * progress;
+const y = burstOrigin.y + Math.sin(p.angle) * p.distance * progress;
+cross(x, y, p.size * (1 - progress * .35), Math.sin(Math.PI * life / p.life) * .85);
+}
+context.globalAlpha = 1;
+}
+function stopOnError(error) {
+stopped = true;
+if (frameId) cancelAnimationFrame(frameId);
+frameId = 0;
+canvas.style.display = "none";
+console.warn("Love Box: optional visual effects stopped; the gift still opens.", error);
+}
+function tick(timestamp) {
+frameId = 0;
+if (stopped || reduced || document.hidden) return;
+if (!lastFrame) lastFrame = timestamp;
+const elapsed = timestamp - lastFrame;
+if (elapsed >= 32) {
+clock += Math.min(elapsed / 1000, .08);
+lastFrame = timestamp;
+try {
+drawAmbient();
+drawReveal();
+} catch (error) {
+stopOnError(error);
+return;
+}
+}
+frameId = requestAnimationFrame(tick);
+}
+function start() {
+if (!stopped && !reduced && !document.hidden && !frameId) {
+lastFrame = 0;
+frameId = requestAnimationFrame(tick);
+}
+}
+function open(point) {
+if (reduced || stopped) return;
+measure();
+burstOrigin = point || { x: bounds.x, y: bounds.y };
+revealTime = clock;
+floaters = [];
+glitter = [];
+for (let i = 0; i < 42; i++) {
+const direction = i % 3 === 0 ? -1 : 1;
+floaters.push({
+type: ["rose", "berry", "star"][i % 3],
+angle: i / 42 * TAU + random(-.04, .04),
+phase: random(0, TAU),
+speed: random(.1, .17) * direction,
+direction: direction,
+lane: random(-2, 7),
+delay: random(.02, .42),
+size: i % 3 === 2 ? random(7, 10) : random(7, 10.5)
+});
+}
+for (let i = 0; i < 25; i++) {
+glitter.push({
+angle: random(0, TAU),
+distance: random(35, Math.min(width * .4, 145)),
+size: random(2, 4.5),
+delay: random(0, .2),
+life: random(.8, 1.5)
+});
+}
+start();
+}
+function reset() {
+revealTime = -1;
+floaters = [];
+glitter = [];
+boundsDirty = true;
+if (reduced) drawAmbient();
+}
+function motionChanged() {
+reduced = !!(motionQuery && motionQuery.matches);
+if (frameId) cancelAnimationFrame(frameId);
+frameId = 0;
+reset();
+if (reduced) drawAmbient();
+else start();
+}
+// Initialize data before resizing; nothing reads an uninitialized star list.
+resize();
+start();
+window.addEventListener("resize", function () {
+try { resize(); } catch (error) { stopOnError(error); }
+}, { passive: true });
+window.addEventListener("scroll", function () {
+boundsDirty = true;
+}, { passive: true });
+document.addEventListener("visibilitychange", function () {
+document.body.classList.toggle("sleeping", document.hidden);
+if (document.hidden) {
+if (frameId) cancelAnimationFrame(frameId);
+frameId = 0;
+} else {
+boundsDirty = true;
+start();
+}
+});
+window.addEventListener("pageshow", function () {
+boundsDirty = true;
+start();
+});
+if (motionQuery) {
+if (typeof motionQuery.addEventListener === "function") {
+motionQuery.addEventListener("change", motionChanged);
+} else if (typeof motionQuery.addListener === "function") {
+motionQuery.addListener(motionChanged);
+}
+}
+return { open: open, reset: reset };
+}
+try {
+effects = createEffects();
+} catch (error) {
+console.warn("Love Box: canvas unavailable; using the native reveal.", error);
+}
+// Also handles a browser restoring an already-open gift from its page cache.
+syncGift();
 })();
 </script>
 </body>
